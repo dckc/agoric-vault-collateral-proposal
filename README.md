@@ -41,31 +41,21 @@ agd tx swingset install-bundle $B3 --node $NODE --from $WALLET --chain-id $CHAIN
 agd tx swingset install-bundle $B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID
 ```
 
-### 2. Submit Vault / Asset Proposal
+### 2. Submit Governance Proposals
 
 ```zsh
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
 CHAIN_ID=agoricdev-20
-agd tx gov submit-proposal swingset-core-eval add-stATOM-permit.json add-stATOM.js \
-  --title="Enable stATOM Vault" --description="Evaluate add-stATOM.js" --deposit=1000000ubld \
+agd tx gov submit-proposal swingset-core-eval \
+  add-stATOM-permit.json add-stATOM.js \
+  add-stATOM-oracles-permit.json add-stATOM-oracles.js \
+  --title="Enable stATOM Vault" --description="Evaluate add-stATOM.js add-stATOM-oracles" --deposit=1000000ubld \
   --gas=auto --gas-adjustment=1.2 \
   --node $NODE --from $WALLET --chain-id $CHAIN_ID
 ```
 
-### 3. Submit Oracle Proposal
-
-```zsh
-NODE=https://devnet.rpc.agoric.net:443
-WALLET=dev-local
-CHAIN_ID=agoricdev-20
-agd tx gov submit-proposal swingset-core-eval add-stATOM-oracles-permit.json add-stATOM-oracles.js \
-  --title="Enable stATOM Oracle" --description="Evaluate add-stATOM-oracles.js" --deposit=1000000ubld \
-  --gas=auto --gas-adjustment=1.2 \
-  --node $NODE --from $WALLET --chain-id $CHAIN_ID
-```
-
-### 4. Query Gov Proposals
+### 3. Query Gov Proposals
 
 ```zsh
 NODE=https://devnet.rpc.agoric.net:443
@@ -75,12 +65,11 @@ agd query gov proposals --node $NODE --chain-id $CHAIN_ID --output json | \
   jq -c '.proposals[] | [.proposal_id,.voting_end_time,.status]';
 ```
 
-### 5. Vote on Gov Proposals
+### 4. Vote on Gov Proposal
 
 ```zsh
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
 CHAIN_ID=agoricdev-20
 agd tx gov vote 1 yes --node $NODE --from $WALLET --chain-id $CHAIN_ID
-agd tx gov vote 2 yes --node $NODE --from $WALLET --chain-id $CHAIN_ID
 ```
