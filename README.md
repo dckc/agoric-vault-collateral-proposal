@@ -8,6 +8,8 @@ I have checked in the generated files here for reference.
 
 ### 2. Setup wallet
 
+One wallet is needed for submitting governance proposals, and two* wallets are required for submitting oracle prices.
+
 ```zsh
 # list current keys
 agd keys list
@@ -19,9 +21,22 @@ agd keys add [dev-local] --interactive
 agd keys show [dev-local] -a
 ```
 
-### 3. Request faucet funds
+* two if `minSubmissionCount` in `decentral-devnet-config.json` is set to `2`
+
+### 3. Request faucet funds + Provision Wallet
 
 Setup a smart-wallet and request funds here: https://devnet.faucet.agoric.net/, using the address from the previous step.
+
+In a local environment, the following `cosmic-swingset` Makefile commands will help achieve the same:
+```zsh
+cd ~/agoric-sdk/packages/cosmic-swingset
+# fund provision pool
+make fund-provision-pool
+# create a smart wallet
+ACCT_ADDR=your-address make provision-acct
+# add faucet tokens to wallet
+ACCT_ADDR=your-address FUNDS=80000000ubld,80000000uist,80000000ibc/toyatom,80000000ibc/toystatom1 make fund-acct
+```
 
 ## Proposal Steps
 
@@ -35,10 +50,10 @@ B1=bundles/b1-1c8e93cc80b28b2cf6b1252e9b6edb0253a1f962889f8a255397b43984950a263d
 B2=bundles/b1-8fb229296073327ed26d2a1ac56eda2bdc70c99d68621895a88f6cc09bce2defa3bd0894e97950e5a0696388193279c8f6b9399809611f8fec3ef5aeed355ba5.json
 B3=bundles/b1-938304530ab413804ba64aa99a73cccb6f2068c285631463f5bd7e6e42dda81bc27fc81a6976ab7907d19d5d0e31ee5a1eaa05bc7234c7d102cc0a0f3a34ff60.json
 B4=bundles/b1-e4ba9cb60b5b59d4d4618710991fe8a503dd4a07c7f17029a342ccb41893bc961ae63bcb0e2c20e4bc2415c9755f090f7761751cdd00b85762902b357a48c5cf.json
-agd tx swingset install-bundle $B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID
-agd tx swingset install-bundle $B2 --node $NODE --from $WALLET --chain-id $CHAIN_ID
-agd tx swingset install-bundle $B3 --node $NODE --from $WALLET --chain-id $CHAIN_ID
-agd tx swingset install-bundle $B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID
+agd tx swingset install-bundle $B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
+agd tx swingset install-bundle $B2 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
+agd tx swingset install-bundle $B3 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
+agd tx swingset install-bundle $B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
 ```
 
 ### 2. Submit Governance Proposals
@@ -77,23 +92,33 @@ agd tx gov vote 1 yes --node $NODE --from $WALLET --chain-id $CHAIN_ID
 
 ## Oracle Steps
 
-Before, ensure an address you control is listed in `oracleAddresses`.
+Before, ensure at least two addresses you control is listed in `oracleAddresses`. You may also want to adjust `minSubmissionCount` from `3` to `2` in `decentral-devnet-config.json`.
 
 ```zsh
 cd ~/agoric-sdk
 WALLET=dev-local
 NODE=https://localhost:26657
 WALLET=dev-local
+WALLET_2=dev-local-2
 CHAIN_ID=agoriclocal
 alias oracle="yarn run --silent agops oracle"
 
 # accept the offer to submit a price
-oracle accept --offerId 1 --pair STATOM1.USD > offer-1.json
-agoric wallet send --from $WALLET --offer offer-1.json
+oracle accept --offerId 1 --pair STATOM1.USD > offer-1-w1.json
+agoric wallet send --from $WALLET --offer offer-1-w1.json
 
 # push a price
-oracle pushPriceRound --price 10 --roundId 1 --oracleAdminAcceptOfferId 1 > price-offer-1.json
-agoric wallet send --from $WALLET --offer price-offer-1.json
+oracle pushPriceRound --price 10 --roundId 1 --oracleAdminAcceptOfferId 1 > price-offer-1-w1.json
+agoric wallet send --from $WALLET --offer price-offer-1-w1.json
+
+# verify price feed
+agoric follow :published.priceFeed.STATOM1-USD_price_feed
+
+# submit a price from wallet 2
+oracle accept --offerId 1 --pair STATOM1.USD > offer-1-w2.json
+agoric wallet send --from $WALLET_2 --offer offer-1-w2.json
+oracle pushPriceRound --price 10 --roundId 1 --oracleAdminAcceptOfferId 1 > price-offer-1-w2.json
+agoric wallet send --from $WALLET_2 --offer price-offer-1-w2.json
 ```
 
 
