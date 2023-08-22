@@ -35,7 +35,7 @@ make fund-provision-pool
 # create a smart wallet
 ACCT_ADDR=your-address make provision-acct
 # add faucet tokens to wallet
-ACCT_ADDR=your-address FUNDS=80000000ubld,80000000uist,80000000ibc/toyatom,80000000ibc/toystatom make fund-acct
+ACCT_ADDR=your-address FUNDS=9999000000ubld,9999000000uist make fund-acct
 ```
 
 ## Proposal Steps
@@ -48,7 +48,7 @@ WALLET=dev-local
 CHAIN_ID=agoricdev-20
 B1=bundles/b1-1c8e93cc80b28b2cf6b1252e9b6edb0253a1f962889f8a255397b43984950a263dd9c9efd82aee5744b46e7bd57ff1c733030e9f4dc8da9b355b185a59687862.json
 B2=bundles/b1-8fb229296073327ed26d2a1ac56eda2bdc70c99d68621895a88f6cc09bce2defa3bd0894e97950e5a0696388193279c8f6b9399809611f8fec3ef5aeed355ba5.json
-B3=bundles/b1-f8c91ffa4aa7a9fa2988011851607f735ea3fbbe5158ad113b870a90800354e9f04c47ae04e4378d987a17c45b83a2f0bce4c2e64ccdffb05e0879853d4122cc.json
+B3=bundles/b1-79373244f93fa2fb0bbf0bbb7ca6ab56c63f223803a170c471c325a4ecde83e335924dfd7a72df02bdecff10810dafb03d21071971a2658d6782699783730134.json
 B4=bundles/b1-e4ba9cb60b5b59d4d4618710991fe8a503dd4a07c7f17029a342ccb41893bc961ae63bcb0e2c20e4bc2415c9755f090f7761751cdd00b85762902b357a48c5cf.json
 agd tx swingset install-bundle $B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
 agd tx swingset install-bundle $B2 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
@@ -104,7 +104,7 @@ CHAIN_ID=agoriclocal
 alias oracle="yarn run --silent agops oracle"
 
 # accept the offer to submit a price
-oracle accept --offerId 1 --pair STATOM.USD > offer-1-w1.json
+oracle accept --offerId 1 --pair stATOM.USD > offer-1-w1.json
 agoric wallet send --from $WALLET --offer offer-1-w1.json
 
 # push a price
@@ -112,10 +112,10 @@ oracle pushPriceRound --price 10 --roundId 1 --oracleAdminAcceptOfferId 1 > pric
 agoric wallet send --from $WALLET --offer price-offer-1-w1.json
 
 # verify price feed
-agoric follow :published.priceFeed.STATOM-USD_price_feed
+agoric follow :published.priceFeed.stATOM-USD_price_feed
 
 # submit a price from wallet 2
-oracle accept --offerId 1 --pair STATOM.USD > offer-1-w2.json
+oracle accept --offerId 1 --pair stATOM.USD > offer-1-w2.json
 agoric wallet send --from $WALLET_2 --offer offer-1-w2.json
 oracle pushPriceRound --price 10 --roundId 1 --oracleAdminAcceptOfferId 1 > price-offer-1-w2.json
 agoric wallet send --from $WALLET_2 --offer price-offer-1-w2.json
@@ -148,7 +148,7 @@ E(home.zoe).offer(inv, proposal, pmt)
 E(history[n]).getOfferResult() // should provide a VaultSeatKit, or show an error
 
 // open an stATOM vault
-E(E(home.agoricNames).lookup('issuer', 'STATOM')).getBrand()
+E(E(home.agoricNames).lookup('issuer', 'stATOM')).getBrand()
 stAtomBrand = history[n]
 stAtomPurse = E(home.wallet).getPurse("stATOM")
 oneMillionUstAtomAmount = { brand: stAtomBrand, value: 1_000_000n}
@@ -164,7 +164,7 @@ E(history[n]).getOfferResult() // should provide a VaultSeatKit, or show an erro
 ## REPL Oracle Validation
 
 ```js
-E(home.agoricNames).lookup('oracleBrand', 'STATOM')
+E(home.agoricNames).lookup('oracleBrand', 'stATOM')
 E(home.agoricNames).lookup('oracleBrand', 'USD')
 stAtomOracleBrand = history[n]
 E(home.priceAuthority).makeQuoteNotifier({ value: 10n * 10n ** 6n, brand: stAtomOracleBrand }, usdOracleBrand)
