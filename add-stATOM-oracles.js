@@ -10,9 +10,9 @@ const getManifestCall = harden([
     IN_BRAND_LOOKUP: [
       "agoricNames",
       "oracleBrand",
-      "STATOM",
+      "stATOM",
     ],
-    IN_BRAND_NAME: "STATOM",
+    IN_BRAND_NAME: "stATOM",
     OUT_BRAND_DECIMALS: 4,
     OUT_BRAND_LOOKUP: [
       "agoricNames",
@@ -56,9 +56,7 @@ const overrideManifest = {
       chainStorage: "priceFeed",
       chainTimerService: "priceFeed",
       client: "priceFeed",
-      contractGovernor: "priceFeed",
       econCharterKit: "priceFeed",
-      economicCommitteeCreatorFacet: "priceFeed",
       highPrioritySendersManager: "priceFeed",
       namesByAddressAdmin: "priceFeed",
       priceAuthority: "priceFeed",
