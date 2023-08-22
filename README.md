@@ -48,7 +48,7 @@ WALLET=dev-local
 CHAIN_ID=agoricdev-20
 B1=bundles/b1-1c8e93cc80b28b2cf6b1252e9b6edb0253a1f962889f8a255397b43984950a263dd9c9efd82aee5744b46e7bd57ff1c733030e9f4dc8da9b355b185a59687862.json
 B2=bundles/b1-8fb229296073327ed26d2a1ac56eda2bdc70c99d68621895a88f6cc09bce2defa3bd0894e97950e5a0696388193279c8f6b9399809611f8fec3ef5aeed355ba5.json
-B3=bundles/b1-f438dcc1efa2ae7c154e9e4cefdd2dd02478d68324f8057377f6115b84bce8aea626e0018cff923ba12945e1f809c71bcbbdd1652385d350eecbf8c825d6a3fe.json
+B3=bundles/b1-f8c91ffa4aa7a9fa2988011851607f735ea3fbbe5158ad113b870a90800354e9f04c47ae04e4378d987a17c45b83a2f0bce4c2e64ccdffb05e0879853d4122cc.json
 B4=bundles/b1-e4ba9cb60b5b59d4d4618710991fe8a503dd4a07c7f17029a342ccb41893bc961ae63bcb0e2c20e4bc2415c9755f090f7761751cdd00b85762902b357a48c5cf.json
 agd tx swingset install-bundle $B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
 agd tx swingset install-bundle $B2 --node $NODE --from $WALLET --chain-id $CHAIN_ID -y
