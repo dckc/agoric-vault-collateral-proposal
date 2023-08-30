@@ -17,8 +17,8 @@ I have checked in the generated files here for reference. The files were generat
 
 Alternatively, you can edit the files provided here directly, adjusting the sections highlighted:
 
- - [add-stATOM.js](https://github.com/0xpatrickdev/agoric-vault-collateral-proposal/blob/pc/readme-updates/add-stATOM.js#L9-L18)
- - [add-stATOM-oracles.js](https://github.com/0xpatrickdev/agoric-vault-collateral-proposal/blob/pc/readme-updates/add-stATOM-oracles.js#L8-L45)
+ - [add-stATOM.js#L9-L18](https://github.com/0xpatrickdev/agoric-vault-collateral-proposal/blob/main/add-stATOM.js#L9-L18)
+ - [add-stATOM-oracles.js#L8-L45](https://github.com/0xpatrickdev/agoric-vault-collateral-proposal/blob/main/add-stATOM-oracles.js#L8-L45)
 
 ### 2. Setup wallet
 
