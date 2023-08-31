@@ -37,7 +37,7 @@ agd keys show [dev-local] -a
 
 * two if `minSubmissionCount` in `decentral-devnet-config.json` is set to `2`
 
-### 2.a Setting up hardware wallet
+### 2.a. Setting up a hardware wallet
  
 Ledger hardware wallet signing is supported by agd, and can be set up as follows:
 
@@ -131,7 +131,9 @@ agd tx gov vote 1 yes --node $NODE --from $WALLET --chain-id $CHAIN_ID
 
 ## Oracle Steps
 
-Before, ensure at least two addresses you control is listed in `oracleAddresses`. You may also want to adjust `minSubmissionCount` from `3` to `2` in `decentral-devnet-config.json`.
+_If you are testing on a local chain, you will need to send oracle prices in order for the vault manager to finish initializing._
+
+Before, ensure at least two addresses you control are listed in `oracleAddresses`. You may also want to adjust `minSubmissionCount` from `3` to `2` in `decentral-devnet-config.json`.
 
 ```zsh
 cd ~/agoric-sdk
