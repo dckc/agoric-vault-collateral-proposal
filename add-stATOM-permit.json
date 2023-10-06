@@ -1,40 +1,34 @@
 {
   "consume": {
-    "bankManager": true,
-    "agoricNamesAdmin": "makeCoreProposalBehavior",
-    "bankMints": true,
-    "reserveKit": true,
-    "vBankKits": true,
-    "startUpgradable": true,
-    "priceAuthorityAdmin": true,
-    "priceAuthority": true,
-    "scaledPriceAuthorityKits": true,
-    "auctioneerKit": "auctioneer",
-    "vaultFactoryKit": "vaultFactory",
+    "agoricNamesAdmin": "priceFeed",
+    "board": "priceFeed",
+    "chainStorage": "priceFeed",
+    "chainTimerService": "priceFeed",
+    "client": "priceFeed",
+    "econCharterKit": "priceFeed",
+    "highPrioritySendersManager": "priceFeed",
+    "namesByAddressAdmin": "priceFeed",
+    "priceAuthority": "priceFeed",
+    "priceAuthorityAdmin": "priceFeed",
+    "startGovernedUpgradable": "priceFeed",
     "vatAdminSvc": "makeCoreProposalBehavior",
     "zoe": "makeCoreProposalBehavior"
   },
-  "produce": {
-    "bankMints": true,
-    "vBankKits": true,
-    "scaledPriceAuthorityKits": true
+  "instance": {
+    "produce": "priceFeed"
   },
-  "installation": {
+  "namedVat": {
     "consume": {
-      "mintHolder": true,
-      "scaledPriceAuthority": true
-    },
-    "produce": "makeCoreProposalBehavior"
-  },
-  "brand": {
-    "consume": {
-      "IST": true
+      "agoricNames": "agoricNames"
     }
   },
-  "instance": {
-    "consume": true
+  "oracleBrand": {
+    "produce": "priceFeed"
   },
   "evaluateBundleCap": "makeCoreProposalBehavior",
+  "installation": {
+    "produce": "makeCoreProposalBehavior"
+  },
   "modules": {
     "utils": {
       "runModuleBehaviors": "makeCoreProposalBehavior"

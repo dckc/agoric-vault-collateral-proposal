@@ -10,9 +10,9 @@ This proposal can easily be adapted for other collerateral types, and should ser
 
 ### 1. Use Proposal Builder to generate Core Eval files
 
-See [inter-protocol/scripts/add-STARS.js](https://github.com/Agoric/agoric-sdk/blob/5a00ae14aedb7d4a5f1e60c4bc9d79814089c99b/packages/inter-protocol/scripts/add-STARS.js) and this npm [script](https://github.com/Agoric/agoric-sdk/blob/5a00ae14aedb7d4a5f1e60c4bc9d79814089c99b/packages/inter-protocol/package.json#L13) for more details.
+See [builders/scripts/inter-protocol/add-STARS.js](https://github.com/Agoric/agoric-sdk/blob/4df6e758409e9196fdf0381904a4caccec99545d/packages/builders/scripts/inter-protocol/add-STARS.js) and this npm [script](https://github.com/Agoric/agoric-sdk/blob/02e420b5f72ef6e47cdb7b1cc4a2b8403955fc92/packages/builders/package.json#L10) for more details.
 
-I have checked in the generated files here for reference. The files were generated with [this fork](https://github.com/Agoric/agoric-sdk/compare/master...0xpatrickdev:agoric-sdk:pc/statom-vault-proposal-issuerName), using the added `yarn build:add-stATOM-proposal` script.
+I have checked in the generated files here for reference. The files were generated from [this commit hash]https://github.com/Agoric/agoric-sdk/tree/4df6e758409e9196fdf0381904a4caccec99545d), using the added `yarn build:add-stATOM-proposal` script.
 
 
 Alternatively, you can edit the files provided here directly, adjusting the sections highlighted:
@@ -71,10 +71,10 @@ _Before deploying bundles, you will want to query the chain [1.a.](#1a-verify-bu
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
 CHAIN_ID=agoricdev-20
-B1=b1-1c8e93cc80b28b2cf6b1252e9b6edb0253a1f962889f8a255397b43984950a263dd9c9efd82aee5744b46e7bd57ff1c733030e9f4dc8da9b355b185a59687862.json
-B2=b1-8fb229296073327ed26d2a1ac56eda2bdc70c99d68621895a88f6cc09bce2defa3bd0894e97950e5a0696388193279c8f6b9399809611f8fec3ef5aeed355ba5.json
-B3=b1-c185bf3b0d7cf940a4f6d6ca1cd74a5d0f5ff330be1cfceaa6c5e4204ba1196e92444e086bf03573371216f41941d1b0fc8560984e2da09f2edd412e46dd62e3.json
-B4=b1-e4ba9cb60b5b59d4d4618710991fe8a503dd4a07c7f17029a342ccb41893bc961ae63bcb0e2c20e4bc2415c9755f090f7761751cdd00b85762902b357a48c5cf.json
+B1=b1-3253e162d5dd497dbc103651d0c2be3656448d3563e80e1ca9b0a9a020013b69089f365daad492b346d8970df92fe8fcc589a71b067c6ffc10b8fd548bce6f4e.json
+B2=b1-8e2dcf513daf9530d347112cf403e8b3fd4f384e041cfa8f0819baa06a79e7f9f2b49fa77801e2d9bbf1717652004c4e65c1ca84d7345c4b44b97512cf8d1fdd.json
+B3=b1-00093b027ab00556082702da2a5579fe311170e3bc45ec4d33dee2405f820fef3fb8b71c166fd31b5b8f2f9387e3a942649cfb7fb010c7f2aa2cca23fcbf85a4.json
+B4=b1-69d40a0f9adc747213263332b35e6abc03b6b0299fc5ef27b690d406213150562d5ddd0bb92de85edd9e5cb6a1aed4f79caa067840d070babe588cafa14c4726.json
 
 cd bundles
 agd tx swingset install-bundle @$B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
@@ -86,11 +86,13 @@ _Alternatively, the `deploy-bundles.sh` script can be used to ensure only un-pub
 
 
 ### 1.a. Verify Bundle Deployment
+
 ```zsh
 # returns a global list of deployed bundles
-agd query vstorage children swingStore.bundle --node $NODE
-# query for a specific bundle
-agd query vstorage data swingStore.bundle.[bundle id] --node $NODE
+agd query vstorage data bundles --node $NODE --chain-id $CHAIN_ID --output json
+# returns a formattted list of deployed bundles
+agd query vstorage data bundles --node $NODE --chain-id $CHAIN_ID --output json | \
+jq -r '.value | fromjson | .values | map(fromjson) | .[-1] | .body[1:] | fromjson'
 ```
 
 ### 2. Submit Governance Proposal
@@ -138,7 +140,7 @@ Before, ensure at least two addresses you control are listed in `oracleAddresses
 ```zsh
 cd ~/agoric-sdk
 WALLET=dev-local
-NODE=https://localhost:26657
+NODE=http://localhost:26657
 WALLET=dev-local
 WALLET_2=dev-local-2
 CHAIN_ID=agoriclocal
@@ -182,6 +184,9 @@ _A link to an endorsed UI can be found on https://devnet.agoric.net/._
 ## REPL Validation
 
 ```js
+// looking your wallet, so you can request faucet funds
+E(home.myAddressNameAdmin).getMyAddress()
+
 // request a loan for 5m uist (the minimum)
 E(E(home.agoricNames).lookup('issuer', 'IST')).getBrand()
 istBrand = history[n]
