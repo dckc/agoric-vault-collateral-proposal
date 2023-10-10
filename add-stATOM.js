@@ -8,7 +8,7 @@ const getManifestCall = harden([
     debtLimitValue: undefined,
     interchainAssetOptions: {
       decimalPlaces: 6,
-      denom: "ibc/B60D2EF81DE7CCAE53C59B7850667595A7D580200C5636C8922ED78C95532BA7",
+      denom: "ibc/49C630713B2AB60653F76C0C58D43C2A64956803B4D422CACB6DD4AD016ED846",
       initialPrice: undefined,
       issuerBoardId: undefined,
       issuerName: "stATOM",
