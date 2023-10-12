@@ -14,8 +14,7 @@
   },
   "produce": {
     "bankMints": true,
-    "vBankKits": true,
-    "scaledPriceAuthorityKits": true
+    "vBankKits": true
   },
   "installation": {
     "consume": {
@@ -24,13 +23,14 @@
     },
     "produce": "makeCoreProposalBehavior"
   },
+  "instance": {
+    "produce": true,
+    "consume": true
+  },
   "brand": {
     "consume": {
       "IST": true
     }
-  },
-  "instance": {
-    "consume": true
   },
   "evaluateBundleCap": "makeCoreProposalBehavior",
   "modules": {

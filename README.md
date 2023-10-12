@@ -71,16 +71,16 @@ _Before deploying bundles, you will want to query the chain [1.a.](#1a-verify-bu
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
 CHAIN_ID=agoricdev-20
-B1=b1-3253e162d5dd497dbc103651d0c2be3656448d3563e80e1ca9b0a9a020013b69089f365daad492b346d8970df92fe8fcc589a71b067c6ffc10b8fd548bce6f4e.json
-B2=b1-8e2dcf513daf9530d347112cf403e8b3fd4f384e041cfa8f0819baa06a79e7f9f2b49fa77801e2d9bbf1717652004c4e65c1ca84d7345c4b44b97512cf8d1fdd.json
-B3=b1-00093b027ab00556082702da2a5579fe311170e3bc45ec4d33dee2405f820fef3fb8b71c166fd31b5b8f2f9387e3a942649cfb7fb010c7f2aa2cca23fcbf85a4.json
-B4=b1-69d40a0f9adc747213263332b35e6abc03b6b0299fc5ef27b690d406213150562d5ddd0bb92de85edd9e5cb6a1aed4f79caa067840d070babe588cafa14c4726.json
+B1=b1-8e2dcf513daf9530d347112cf403e8b3fd4f384e041cfa8f0819baa06a79e7f9f2b49fa77801e2d9bbf1717652004c4e65c1ca84d7345c4b44b97512cf8d1fdd.json
+B2=b1-d17444291f831122875555d2bf0518f6b762d2f34c26a2b6d17b5c1c2b01157dcdc94b7e8f39144cbe2b36232e048d7aed461de4b9eaa800f8a1431fc70fe5cd.json
+B3=b1-a190115d105bd5d7041f2981a89e9a9294c57ecd5706772a75839a65d70a530ace7a3670234e486fed05a03d84749034e77bdafcbd6f357d2770788397fd7fc8.json
+B4=b1-b9e881e987d10e9ee5aa5d827a1574a3aff2a4eee694b39da50ce28a5ba0c24753dea4f18a50338af6aa0ba0ca97a5544f5eef4db2263ca0ae9e4dd4d8f903be.json
 
 cd bundles
 agd tx swingset install-bundle @$B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
 agd tx swingset install-bundle @$B2 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
 agd tx swingset install-bundle @$B3 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
-agd tx swingset install-bundle @$B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
+agd tx swingset install-bundle @$B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y -b block
 ```
 _Alternatively, the `deploy-bundles.sh` script can be used to ensure only un-published bundles are submitted._
 
@@ -100,7 +100,7 @@ jq -r '.value | fromjson | .values | map(fromjson) | .[-1] | .body[1:] | fromjso
 ```zsh
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
-CHAIN_ID=agoricdev-20
+CHAIN_ID=agoricdev-21 // see https://devnet.agoric.net/ for latest chain id
 agd tx gov submit-proposal swingset-core-eval \
   add-stATOM-permit.json add-stATOM.js \
   add-stATOM-oracles-permit.json add-stATOM-oracles.js \
