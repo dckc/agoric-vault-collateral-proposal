@@ -10,9 +10,9 @@ This proposal can easily be adapted for other collerateral types, and should ser
 
 ### 1. Use Proposal Builder to generate Core Eval files
 
-See [inter-protocol/scripts/add-STARS.js](https://github.com/Agoric/agoric-sdk/blob/5a00ae14aedb7d4a5f1e60c4bc9d79814089c99b/packages/inter-protocol/scripts/add-STARS.js) and this npm [script](https://github.com/Agoric/agoric-sdk/blob/5a00ae14aedb7d4a5f1e60c4bc9d79814089c99b/packages/inter-protocol/package.json#L13) for more details.
+See [builders/scripts/inter-protocol/add-STARS.js](https://github.com/Agoric/agoric-sdk/blob/4df6e758409e9196fdf0381904a4caccec99545d/packages/builders/scripts/inter-protocol/add-STARS.js) and this npm [script](https://github.com/Agoric/agoric-sdk/blob/02e420b5f72ef6e47cdb7b1cc4a2b8403955fc92/packages/builders/package.json#L10) for more details.
 
-I have checked in the generated files here for reference. The files were generated with [this fork](https://github.com/Agoric/agoric-sdk/compare/master...0xpatrickdev:agoric-sdk:pc/statom-vault-proposal-issuerName), using the added `yarn build:add-stATOM-proposal` script.
+I have checked in the generated files here for reference. The files were generated from [this commit hash]https://github.com/Agoric/agoric-sdk/tree/4df6e758409e9196fdf0381904a4caccec99545d), using the added `yarn build:add-stATOM-proposal` script.
 
 
 Alternatively, you can edit the files provided here directly, adjusting the sections highlighted:
@@ -71,26 +71,28 @@ _Before deploying bundles, you will want to query the chain [1.a.](#1a-verify-bu
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
 CHAIN_ID=agoricdev-20
-B1=b1-1c8e93cc80b28b2cf6b1252e9b6edb0253a1f962889f8a255397b43984950a263dd9c9efd82aee5744b46e7bd57ff1c733030e9f4dc8da9b355b185a59687862.json
-B2=b1-8fb229296073327ed26d2a1ac56eda2bdc70c99d68621895a88f6cc09bce2defa3bd0894e97950e5a0696388193279c8f6b9399809611f8fec3ef5aeed355ba5.json
-B3=b1-c185bf3b0d7cf940a4f6d6ca1cd74a5d0f5ff330be1cfceaa6c5e4204ba1196e92444e086bf03573371216f41941d1b0fc8560984e2da09f2edd412e46dd62e3.json
-B4=b1-e4ba9cb60b5b59d4d4618710991fe8a503dd4a07c7f17029a342ccb41893bc961ae63bcb0e2c20e4bc2415c9755f090f7761751cdd00b85762902b357a48c5cf.json
+B1=b1-8e2dcf513daf9530d347112cf403e8b3fd4f384e041cfa8f0819baa06a79e7f9f2b49fa77801e2d9bbf1717652004c4e65c1ca84d7345c4b44b97512cf8d1fdd.json
+B2=b1-d17444291f831122875555d2bf0518f6b762d2f34c26a2b6d17b5c1c2b01157dcdc94b7e8f39144cbe2b36232e048d7aed461de4b9eaa800f8a1431fc70fe5cd.json
+B3=b1-a190115d105bd5d7041f2981a89e9a9294c57ecd5706772a75839a65d70a530ace7a3670234e486fed05a03d84749034e77bdafcbd6f357d2770788397fd7fc8.json
+B4=b1-b9e881e987d10e9ee5aa5d827a1574a3aff2a4eee694b39da50ce28a5ba0c24753dea4f18a50338af6aa0ba0ca97a5544f5eef4db2263ca0ae9e4dd4d8f903be.json
 
 cd bundles
 agd tx swingset install-bundle @$B1 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
 agd tx swingset install-bundle @$B2 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
 agd tx swingset install-bundle @$B3 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
-agd tx swingset install-bundle @$B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y
+agd tx swingset install-bundle @$B4 --node $NODE --from $WALLET --chain-id $CHAIN_ID --gas=auto --gas-adjustment=1.2 -y -b block
 ```
 _Alternatively, the `deploy-bundles.sh` script can be used to ensure only un-published bundles are submitted._
 
 
 ### 1.a. Verify Bundle Deployment
+
 ```zsh
 # returns a global list of deployed bundles
-agd query vstorage children swingStore.bundle --node $NODE
-# query for a specific bundle
-agd query vstorage data swingStore.bundle.[bundle id] --node $NODE
+agd query vstorage data bundles --node $NODE --chain-id $CHAIN_ID --output json
+# returns a formattted list of deployed bundles
+agd query vstorage data bundles --node $NODE --chain-id $CHAIN_ID --output json | \
+jq -r '.value | fromjson | .values | map(fromjson) | .[-1] | .body[1:] | fromjson'
 ```
 
 ### 2. Submit Governance Proposal
@@ -98,7 +100,7 @@ agd query vstorage data swingStore.bundle.[bundle id] --node $NODE
 ```zsh
 NODE=https://devnet.rpc.agoric.net:443
 WALLET=dev-local
-CHAIN_ID=agoricdev-20
+CHAIN_ID=agoricdev-21 // see https://devnet.agoric.net/ for latest chain id
 agd tx gov submit-proposal swingset-core-eval \
   add-stATOM-permit.json add-stATOM.js \
   add-stATOM-oracles-permit.json add-stATOM-oracles.js \
@@ -138,7 +140,7 @@ Before, ensure at least two addresses you control are listed in `oracleAddresses
 ```zsh
 cd ~/agoric-sdk
 WALLET=dev-local
-NODE=https://localhost:26657
+NODE=http://localhost:26657
 WALLET=dev-local
 WALLET_2=dev-local-2
 CHAIN_ID=agoriclocal
@@ -182,6 +184,9 @@ _A link to an endorsed UI can be found on https://devnet.agoric.net/._
 ## REPL Validation
 
 ```js
+// looking your wallet, so you can request faucet funds
+E(home.myAddressNameAdmin).getMyAddress()
+
 // request a loan for 5m uist (the minimum)
 E(E(home.agoricNames).lookup('issuer', 'IST')).getBrand()
 istBrand = history[n]
