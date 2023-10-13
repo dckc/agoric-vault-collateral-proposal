@@ -8,10 +8,10 @@ const manifestBundleRef = {
 const getManifestCall = harden([
   "getManifestForPriceFeed",
   {
-    AGORIC_INSTANCE_NAME: "stATOM3-USD price feed",
+    AGORIC_INSTANCE_NAME: "stATOM-USD price feed",
     IN_BRAND_DECIMALS: 6,
-    IN_BRAND_LOOKUP: ["agoricNames", "oracleBrand", "stATOM3"],
-    IN_BRAND_NAME: "stATOM3",
+    IN_BRAND_LOOKUP: ["agoricNames", "oracleBrand", "stATOM"],
+    IN_BRAND_NAME: "stATOM",
     OUT_BRAND_DECIMALS: 4,
     OUT_BRAND_LOOKUP: ["agoricNames", "oracleBrand", "USD"],
     OUT_BRAND_NAME: "USD",
