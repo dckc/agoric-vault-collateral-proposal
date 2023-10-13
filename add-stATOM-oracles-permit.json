@@ -26,9 +26,6 @@
     "produce": "priceFeed"
   },
   "evaluateBundleCap": "makeCoreProposalBehavior",
-  "installation": {
-    "produce": "makeCoreProposalBehavior"
-  },
   "modules": {
     "utils": {
       "runModuleBehaviors": "makeCoreProposalBehavior"
