@@ -21,10 +21,6 @@ const getManifestCall = harden([
       proposedName: "stATOM3",
     },
     interestRateValue: undefined,
-    scaledPriceAuthorityRef: {
-      bundleID:
-        "b1-8e2dcf513daf9530d347112cf403e8b3fd4f384e041cfa8f0819baa06a79e7f9f2b49fa77801e2d9bbf1717652004c4e65c1ca84d7345c4b44b97512cf8d1fdd",
-    },
   },
 ]);
 const overrideManifest = {
@@ -111,7 +107,7 @@ const overrideManifest = {
     const {
       consume: { vatAdminSvc, zoe, agoricNamesAdmin },
       evaluateBundleCap,
-      installation: { produce: produceInstallations },
+      // NO installation: { ... },
       modules: {
         utils: { runModuleBehaviors },
       },
@@ -167,14 +163,9 @@ const overrideManifest = {
       [rawOptions, rawInstallations].map(shallowlyFulfilled),
     );
 
-    // Publish the installations for behavior dependencies.
-    const installAdmin = E(agoricNamesAdmin).lookupAdmin('installation');
-    await Promise.all(
-      entries(installations || {}).map(([key, value]) => {
-        produceInstallations[key].resolve(value);
-        return E(installAdmin).update(key, value);
-      }),
-    );
+    // DON'T Publish the installations for behavior dependencies.
+    // ...
+    //     produceInstallations[key].resolve(value);
 
     // Evaluate the manifest for our behaviors.
     return runModuleBehaviors({
