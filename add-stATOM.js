@@ -111,7 +111,7 @@ const overrideManifest = {
     const {
       consume: { vatAdminSvc, zoe, agoricNamesAdmin },
       evaluateBundleCap,
-      installation: { produce: produceInstallations },
+      // NO installation: { ... },
       modules: {
         utils: { runModuleBehaviors },
       },
@@ -167,14 +167,9 @@ const overrideManifest = {
       [rawOptions, rawInstallations].map(shallowlyFulfilled),
     );
 
-    // Publish the installations for behavior dependencies.
-    const installAdmin = E(agoricNamesAdmin).lookupAdmin('installation');
-    await Promise.all(
-      entries(installations || {}).map(([key, value]) => {
-        produceInstallations[key].resolve(value);
-        return E(installAdmin).update(key, value);
-      }),
-    );
+    // DON'T Publish the installations for behavior dependencies.
+    // ...
+    //     produceInstallations[key].resolve(value);
 
     // Evaluate the manifest for our behaviors.
     return runModuleBehaviors({
