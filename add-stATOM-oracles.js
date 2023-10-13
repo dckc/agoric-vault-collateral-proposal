@@ -3,7 +3,7 @@
 
 const manifestBundleRef = {
   bundleID:
-    "b1-b9e881e987d10e9ee5aa5d827a1574a3aff2a4eee694b39da50ce28a5ba0c24753dea4f18a50338af6aa0ba0ca97a5544f5eef4db2263ca0ae9e4dd4d8f903be",
+    "b1-80e6fe68b299c82c2d26802c312bc37966a559f7b28f87d058887a79a9db48ad97da2240e71e3f98986071da8fc3c5d02358bec577b17a89cee2b1cb3cd23958"
 };
 const getManifestCall = harden([
   "getManifestForPriceFeed",
